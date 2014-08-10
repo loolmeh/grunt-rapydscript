@@ -1,0 +1,116 @@
+
+path = require('path')
+num_cpus = require('os').cpus().length or 1
+async = require('async')
+chalk = require('chalk')
+spawn = require('win-spawn')
+which = require('which')
+
+mod.exports = def(grunt):
+
+    check_binary = def(cmd, msg):
+        try:
+            which.sync(cmd)
+        except:
+            return grunt.warn(msg + '\n')
+
+    grunt.registerMultiTask('rapydscript', 'Compile rapydscript to javascript.',
+    
+    def():
+
+        options = this.options(
+            {
+                IE8: False,
+                bare: False,
+                prettify: True,
+                namespace: False,
+                autobind: False,
+                omitbase: False,
+                comments: True,
+                runtests: False,
+                stats: True,
+                verbose: True
+            }
+        )
+        
+        cb = this.async()
+        options = this.options()
+        
+        check_binary('rapydscript', 'You need to have rapydscript installed.')
+        
+        async.eachLimit(this.files, num_cpus,
+        
+        def(file, next):
+            src = file.src[0]
+            
+            if typeof src is not 'string':
+                src = file.orig.src[0]
+
+            if not grunt.file.exists(src):
+                grunt.log.warn('Source file' + src + 'not found.')
+                return next()
+            
+            if path.basename(src)[0] is '_':
+                return next()
+
+            input = path.join(process.cwd(), src)
+            output = input.replace(/\.pyj$/g, '.js')
+
+            args = [
+                input,
+                '-o',
+                output,
+            ]
+            
+            if not options.IE8:
+                args.push('--screw-ie8')
+
+            if options.bare:
+                args.push('-b')
+
+            if options.namespace:
+                args.push('-n')
+            
+            if options.autobind:
+                args.push('-i')
+            
+            if options.prettify:
+                args.push('-p')
+            
+            if options.omitbase:
+                args.push('-m')
+            
+            if options.comments:
+                args.push('--comments')
+            
+            if options.runtests:
+                args.push('-t')
+            
+            if options.stats:
+                args.push('--stats')
+            
+            if options.verbose:
+                args.push('-v')
+            
+            bin = 'rapydscript'
+
+            grunt.verbose.writeln('Command: ' + bin + ' ' + args.join(' '))
+            
+            cp = spawn(bin, args, {stdio: 'inherit'})
+
+            cp.on('error',
+            def(err): grunt.warn(err)
+            )
+            
+            cp.on('close',
+            def(code):
+                if code > 0:
+                    return grunt.warn('Exited with error code ' + code)
+                
+                grunt.verbose.writeln('File ' + chalk.cyan(file.dest) + ' created.')
+                next()
+            )
+        , cb)
+    
+    )
+
