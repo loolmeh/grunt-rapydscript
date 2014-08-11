@@ -6,7 +6,7 @@ chalk = require('chalk')
 spawn = require('win-spawn')
 which = require('which')
 
-mod.exports = def(grunt):
+JS('module.exports') = def(grunt):
 
     check_binary = def(cmd, msg):
         try:
