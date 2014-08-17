@@ -1,16 +1,19 @@
 {
   "name": "grunt-rapydscript",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Grunt plugin task to handle compiling rapydscript to javascript.",
-  "homepage": "n/a",
-  "repository": "n/a",
+  "homepage": "https://github.com/loolmeh/grunt-rapydscript",
+  "repository": "https://github.com/loolmeh/grunt-rapydscript",
   "author": {
     "name": "loolmeh",
     "email": "n/a",
-    "url": "n/a"
+    "url": "https://github.com/loolmeh"
   },
   "keywords": [
-    "gruntplugin", "rapydscript", "compiling"
+    "grunt",
+    "plugin",
+    "rapydscript",
+    "compile"
   ],
   "main": "Gruntfile.js",
   "engines": {
@@ -18,18 +21,21 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "async": "^0.9.0",
-    "chalk": "^0.5.1",
-    "grunt": "~0.4.2",
     "grunt-contrib-clean": "~0.5.0",
     "grunt-contrib-jshint": "~0.8.0",
     "grunt-contrib-nodeunit": "~0.3.0",
+    "grunt-contrib-watch": "^0.6.1",
     "jshint-stylish": "~0.1.5",
-    "load-grunt-tasks": "~0.3.0",
-    "which": "^1.0.5",
-    "win-spawn": "^2.0.0"
+    "load-grunt-tasks": "~0.3.0"
   },
   "scripts": {
     "test": "grunt test"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "chalk": "^0.5.1",
+    "grunt": "^0.4.5",
+    "win-spawn": "^2.0.0",
+    "which": "~1.0.5"
   }
 }

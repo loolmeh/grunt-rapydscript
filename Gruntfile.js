@@ -34,16 +34,27 @@ module.exports = function (grunt) {
     // Configuration to be run (and then tested).
     rapydscript: {
         options: {
+            IE8: false,
             prettify: true,
             stats: true,
             verbose: true
         },
         compile: {
-            files: {
-                src: ['test/fixtures/test.pyj'],
-            }
+            files: [
+                {src: ['test/fixtures/*.pyj'], expand:true},
+            ]
         }
    },
+    // sample config for use with grunt-contrib-watch
+    watch: {
+      scripts: {
+        files: ['*.pyj', '**/*.pyj'],
+        tasks: ['rapydscript'],
+        options: {
+          spawn: false,
+        }
+      }
+    },
         // Unit tests.
     nodeunit: {
       tests: ['test/*_test.js']

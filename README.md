@@ -157,6 +157,16 @@ Sets the following flag:
 -v, --verbose            Verbose
 ```
 
+#### options.doc_strings
+Type: `Boolean`
+Default value: `false`
+
+uses sed to clean up compiled single lines with strings as the only thing there:
+
+```sh
+sed -i '/^\s*".*";$/d' file.js
+``` 
+
 ### Usage Examples
 
 #### Example Config
@@ -168,7 +178,7 @@ see the Gruntfile.js in this project for a working default config.
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-- 2014-08-10    v0.0.1  initial release
+- v0.0.1  initial release
 
 ## License
 Copyright (c) 2014 loolmeh. Licensed under the MIT license.
